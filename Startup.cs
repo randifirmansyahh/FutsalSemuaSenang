@@ -1,3 +1,4 @@
+using FutsalSemuaSenang.Extension;
 using FutsalSemuaSenang.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -25,16 +26,7 @@ namespace FutsalSemuaSenang
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<AppDbContext>(o =>
-            {
-                o.UseMySQL(Configuration.GetConnectionString("mysql"));
-            });
-
-            services.AddAuthentication("CookieAuth")
-                .AddCookie("CookieAuth", options =>
-                {
-                    options.LoginPath = "/home/login";
-                });
+            services.KonfigurasiUTSRandi(Configuration);
 
             services.AddControllersWithViews();
         }

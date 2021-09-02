@@ -1,28 +1,35 @@
-﻿<style>
-    .form{
-        margin:0px 500px 10px 500px; 
-        color:white;
+﻿@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+            alert("@ViewBag.Message");
+    </script>
+
+}
+
+<style>
+    .form {
+        margin: 0px 500px 10px 500px;
+        color: white;
     }
 
-    h2{
-        margin:16px 0 31px 0;
+    h2 {
+        margin: 16px 0 31px 0;
     }
 
-    .utama{
-        background-color:gray;     
-        padding:5% 0 1px 0;        
+    .utama {
+        background-color: gray;
+        padding: 5% 0 1px 0;
     }
 
     .header {
         background-color: gray;
         height: 36px;
-        width:100%;        
+        width: 100%;
     }
 
     .home {
         padding: 20px 0 0 30px;
     }
-
 </style>
 
 <div class="header">

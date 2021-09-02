@@ -1,4 +1,12 @@
-﻿<style>
+﻿@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+            alert("@ViewBag.Message");
+    </script>
+
+}
+
+<style>
     .form {
         margin: 20px 500px 20px 500px;
         color: white;
@@ -41,11 +49,3 @@
         </div>
     </div>
 </div>
-
-@section Script{
-    <script>
-        if ('@TempData["AlertMessage"]' !== "") {
-            alert('@TempData["AlertMessage"]');
-        }
-    </script>
-}

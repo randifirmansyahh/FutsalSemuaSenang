@@ -1,4 +1,5 @@
 ﻿using FutsalSemuaSenang.Models;
+using FutsalSemuaSenang.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,7 +15,7 @@ using System.Threading.Tasks;
 namespace FutsalSemuaSenang.Controllers
 {
     public class HomeController : Controller
-    {        
+    {
         public IActionResult Index() => View();
 
         public IActionResult Login() => View();
@@ -22,10 +23,12 @@ namespace FutsalSemuaSenang.Controllers
         public IActionResult Daftar() => View();
 
         private readonly AppDbContext _context;
+        private readonly OTPService otpSvc;
 
-        public HomeController(AppDbContext c)
+        public HomeController(AppDbContext c, OTPService otpSvc)
         {
             _context = c;
+            this.otpSvc = otpSvc;
         }
 
         [HttpPost]
@@ -62,33 +65,17 @@ namespace FutsalSemuaSenang.Controllers
             return View();
         }
 
-        private void Alert(string kalimat)
-        {
-            if (string.IsNullOrEmpty(kalimat))
-            {
-                TempData["AlertMessage"] = kalimat;
-            }
-        }
-
         private int UserOtp;
-
-        private string Name;
-        
-        private string Password;
-        
-        private string Email;
 
         [HttpPost]
         public IActionResult KonfirmasiEmail([Bind("Name,Password,Email,Role")] UserForm data)
         {
             try
             {
-                this.Name = data.Name;
-                this.Password = data.Password;
-                this.Email = data.Email;
+                otpSvc.SetUser(data.Name, data.Email, data.Password);
 
                 Random nilai = new Random();
-                int otp = nilai.Next(1000,9999);
+                int otp = nilai.Next(1000, 9999);
                 this.UserOtp = otp;
 
                 MailMessage email = new MailMessage();
@@ -97,18 +84,19 @@ namespace FutsalSemuaSenang.Controllers
                 email.From = new MailAddress("futsalsemuasenang@gmail.com");
                 email.To.Add(data.Email);
                 email.Subject = "Konfirmasi Akun";
-                email.Body = "Masukan kode "+otp+ " untuk mengkonfirmasi akun pendaftaran anda di Website Futsal Semua Senang!";
+                email.Body = "Masukan kode " + otp + " untuk mengkonfirmasi akun pendaftaran anda di Website Futsal Semua Senang!";
 
                 SmtpServer.Port = 587;
                 SmtpServer.Credentials = new System.Net.NetworkCredential("futsalsemuasenang@gmail.com", "FutsalSemuaSenang!");
                 SmtpServer.EnableSsl = true;
 
                 SmtpServer.Send(email);
-                Alert("Kode OTP telah dikirimkan ke email " + data.Email);
+                ViewBag.Message = "Kode OTP telah dikirimkan ke email " + data.Email; 
             }
             catch (Exception ex)
             {
                 Console.Write(ex);
+                ViewBag.Message = "Gagal mengirimkan OTP, tolong isi email anda dengan benar";
                 return View("Daftar");
             }
             return View();
@@ -116,11 +104,14 @@ namespace FutsalSemuaSenang.Controllers
 
         private void TambahUser()
         {
+            string nama = "", email = "", password = "";
+            otpSvc.GetUser(ref nama, ref email, ref password);
             var user = new User()
             {
-                Name = this.Name,
-                Password = this.Password,
-                Email = this.Email,
+                Name = nama,
+                Password = password,
+                Email = email,
+                Status = true,
             };
 
             var role = _context.Roles
