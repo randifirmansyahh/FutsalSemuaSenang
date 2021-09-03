@@ -10,9 +10,9 @@ namespace FutsalSemuaSenang.Models
         public int Id { get; set; }
         public int IdUser { get; set; }
         public string NamaLapangan { get; set; }
-        public DateTime Tanggal { get; set; }
-        public DateTime JamMulai { get; set; }
-        public DateTime JamSelesai { get; set; }
+        public string Tanggal { get; set; }
+        public string JamMulai { get; set; }
+        public string JamSelesai { get; set; }
         public int Harga { get; set; }
         public bool Status { get; set; }
     }
@@ -20,9 +20,9 @@ namespace FutsalSemuaSenang.Models
     {
         public int IdUser { get; set; }
         public string NamaLapangan { get; set; }
-        public DateTime Tanggal { get; set; }
-        public DateTime JamMulai { get; set; }
-        public DateTime JamSelesai { get; set; }
+        public string Tanggal { get; set; }
+        public string JamMulai { get; set; }
+        public string JamSelesai { get; set; }
         public int Harga { get; set; }
         public bool Status { get; set; }
     }

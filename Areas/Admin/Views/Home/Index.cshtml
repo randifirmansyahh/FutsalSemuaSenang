@@ -54,16 +54,16 @@
                     @Html.DisplayFor(modelItem => item.NamaLapangan)
                 </td>
                 <td align="center">
-                    @Html.DisplayFor(modelItem => item.Tanggal)
+                    @item.Tanggal
                 </td>
                 <td align="center">
-                    @Html.DisplayFor(modelItem => item.JamMulai)
+                    @item.JamMulai.00 WIB
                 </td>
                 <td align="center">
-                    @Html.DisplayFor(modelItem => item.JamSelesai)
+                    @item.JamSelesai.00 WIB
                 </td>
                 <td align="center">
-                    @Html.DisplayFor(modelItem => item.Harga)
+                    Rp. @item.Harga
                 </td>
                 @{ if (item.Status == true)
                     {

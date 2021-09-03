@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FutsalSemuaSenang.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20210830172329_user&roles")]
-    partial class userroles
+    [Migration("20210903181102_new")]
+    partial class @new
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -18,6 +18,38 @@ namespace FutsalSemuaSenang.Migrations
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 64)
                 .HasAnnotation("ProductVersion", "5.0.9");
+
+            modelBuilder.Entity("FutsalSemuaSenang.Models.Booking", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("Harga")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdUser")
+                        .HasColumnType("int");
+
+                    b.Property<string>("JamMulai")
+                        .HasColumnType("text");
+
+                    b.Property<string>("JamSelesai")
+                        .HasColumnType("text");
+
+                    b.Property<string>("NamaLapangan")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Tanggal")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Booking");
+                });
 
             modelBuilder.Entity("FutsalSemuaSenang.Models.Roles", b =>
                 {
@@ -50,6 +82,9 @@ namespace FutsalSemuaSenang.Migrations
 
                     b.Property<int?>("RoleId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 

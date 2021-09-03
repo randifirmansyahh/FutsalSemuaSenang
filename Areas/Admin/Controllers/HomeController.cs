@@ -44,6 +44,7 @@ namespace FutsalSemuaSenang.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 var findBooking = _context.Booking.Find(data.Id);
+
                 var findUser = _context.User.Find(findBooking.IdUser);
 
                 if (findBooking == null)
@@ -279,14 +280,14 @@ namespace FutsalSemuaSenang.Areas.Admin.Controllers
 
         public IActionResult Aktif()
         {
-            var data = _context.User.ToList().Where(x => x.Status == true && x.Role != IdAdmin());
+            var data = _context.User.ToList().Where(x => x.Status == "1" && x.Role != IdAdmin());
             return View(data);
         }
 
         public IActionResult NonAktif()
         {
             var role = _context.Roles.FirstOrDefault(x => x.Id == 1);
-            var data = _context.User.ToList().Where(x => x.Status == false && x.Role != IdAdmin());
+            var data = _context.User.ToList().Where(x => x.Status == "0" && x.Role != IdAdmin());
             return View(data);
         }
 
@@ -301,7 +302,7 @@ namespace FutsalSemuaSenang.Areas.Admin.Controllers
                     return NotFound();
                 }
 
-                finduser.Status = true;
+                finduser.Status = "1";
 
                 _context.Update(finduser);
 
@@ -324,7 +325,7 @@ namespace FutsalSemuaSenang.Areas.Admin.Controllers
                     return NotFound();
                 }
 
-                finduser.Status = false;
+                finduser.Status = "0";
 
                 _context.Update(finduser);
 

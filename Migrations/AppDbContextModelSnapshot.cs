@@ -26,14 +26,14 @@ namespace FutsalSemuaSenang.Migrations
                     b.Property<int>("Harga")
                         .HasColumnType("int");
 
-                    b.Property<string>("IdUser")
+                    b.Property<int>("IdUser")
+                        .HasColumnType("int");
+
+                    b.Property<string>("JamMulai")
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("JamMulai")
-                        .HasColumnType("datetime");
-
-                    b.Property<DateTime>("JamSelesai")
-                        .HasColumnType("datetime");
+                    b.Property<string>("JamSelesai")
+                        .HasColumnType("text");
 
                     b.Property<string>("NamaLapangan")
                         .HasColumnType("text");
@@ -41,8 +41,8 @@ namespace FutsalSemuaSenang.Migrations
                     b.Property<bool>("Status")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<DateTime>("Tanggal")
-                        .HasColumnType("datetime");
+                    b.Property<string>("Tanggal")
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -80,6 +80,9 @@ namespace FutsalSemuaSenang.Migrations
 
                     b.Property<int?>("RoleId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 

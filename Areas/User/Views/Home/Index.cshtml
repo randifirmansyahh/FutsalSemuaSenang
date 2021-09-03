@@ -1,1 +1,83 @@
-﻿<h1>Halaman User</h1>
+﻿@{
+    Layout = "../../../../Views/Shared/_Layout";
+}
+
+<style>
+    .form {
+        margin: 20px 500px 20px 500px;
+        color: white;
+    }
+
+    h2 {
+        margin: 51px 0 52px 0;
+    }
+
+    .utama {
+        background-color: gray;
+        padding: 1px 0 1px 0;
+    }
+
+    .header {
+        background-color: gray;
+        height: 50px;
+        width: 100%;
+    }
+</style>
+
+<div class="header">
+</div>
+
+<div class="utama">
+    <div class="form">
+        <h2 align="center">Silahkan Isi Tanggal dan Waktu Booking</h2>
+        <form class="row g-3" action="User/Home/Cek" method="POST">
+            <div class="col-md-12">
+                <label for="validationDefault01" class="form-label">Tanggal</label>
+                <input type="date" name="Tanggal" class="form-control" required>
+            </div>
+            <div class="col-md-12">
+                <label class="form-label">Pilih jam</label>
+                <select name="Jam" id="Jam" class="form-control" onchange="cekJam()" required>
+                    <option value="" disabled selected>Pilih jam mulai</option>
+                    <option value="13">13.00</option>
+                    <option value="14">14.00</option>
+                </select>
+            </div>
+            <div class="col-md-12">
+                <label class="form-label">Durasi</label>
+                <select name="Durasi" id="Durasi" class="form-control" required>
+                    <option value="" disabled selected>Isi jam mulai terlebih dahulu</option>
+                </select>
+
+                <script>
+                    function cekJam() {
+                        var jamMulai = document.getElementById("Jam").value;
+                        var awalSelect = '<select name="Jam" id="Jam" class="form-control" required>';
+                        var isiSelect = "";
+                        var akhirSelect = '</select>';
+                        if (jamMulai == 13) {
+                            for (let a = 1; a < 3; a++) {
+                                isiSelect += '<option value=' + a + '>' + a + ' Jam</option>';
+                            }
+                        } else if (jamMulai == 14) {
+                            for (let a = 1; a < 2; a++) {
+                                isiSelect += '<option value=' + a + '>' + a + ' Jam</option>';
+                            }
+                        }
+                        document.getElementById("Durasi").innerHTML = isiSelect;
+                    }
+                </script>
+            </div>
+            <div class="col-12" align="center" style="margin:36px 0 36px 0;">
+                <button class="btn btn-success btn-lg" type="submit">Booking Sekarang</button>
+            </div>
+            <div align="center">
+                @if(@ViewBag.Message != null){
+                    <h4 style="font-family:'Times New Roman';color:red;background-color:white;border-radius:20px;padding:10px 0 10px 0">
+                        @ViewBag.Message
+                    </h4>
+                }
+            </div>
+        </form>
+    </div>
+</div>

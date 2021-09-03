@@ -111,7 +111,7 @@ namespace FutsalSemuaSenang.Controllers
                 Name = nama,
                 Password = password,
                 Email = email,
-                Status = true,
+                Status = "1",
             };
 
             var role = _context.Roles

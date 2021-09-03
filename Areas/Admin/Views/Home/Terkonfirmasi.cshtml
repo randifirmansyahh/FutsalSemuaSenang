@@ -40,38 +40,38 @@
             }
             @foreach (var item in Model)
             {
-                <tr>
-                    <td align="center">
-                        @nomor
-                        @{
-                            nomor += 1;
-                        }
-                    </td>
-                    <td align="center">
-                        @Html.DisplayFor(modelItem => item.IdUser)
-                    </td>
-                    <td align="center">
-                        @Html.DisplayFor(modelItem => item.NamaLapangan)
-                    </td>
-                    <td align="center">
-                        @Html.DisplayFor(modelItem => item.Tanggal)
-                    </td>
-                    <td align="center">
-                        @Html.DisplayFor(modelItem => item.JamMulai)
-                    </td>
-                    <td align="center">
-                        @Html.DisplayFor(modelItem => item.JamSelesai)
-                    </td>
-                    <td align="center">
-                        @Html.DisplayFor(modelItem => item.Harga)
-                    </td>
-                    <td align="center">
-                        <a href="@Url.Action("BatalkanKonfirmasi", "Home", new { id = item.Id })"
-                           class="fas fa-download fa-2x" title="Batalkan Konfirmasi" style="color:red"
-                           onclick="if (! confirm('\n\nYakin untuk Membatalkan Order Booking ini ?\n\nJika ya, email pembatalan akan dikirimkan kepada User tersebut\n\n')) { return false; }">
-                        </a>
-                    </td>
-                </tr>
+            <tr>
+                <td align="center">
+                    @nomor
+                    @{
+                        nomor += 1;
+                    }
+                </td>
+                <td align="center">
+                    @Html.DisplayFor(modelItem => item.IdUser)
+                </td>
+                <td align="center">
+                    @Html.DisplayFor(modelItem => item.NamaLapangan)
+                </td>
+                <td align="center">
+                    @item.Tanggal.Substring(0, 10)
+                </td>
+                <td align="center">
+                    @item.JamMulai.00 WIB
+                </td>
+                <td align="center">
+                    @item.JamSelesai.00 WIB
+                </td>
+                <td align="center">
+                    Rp. @item.Harga
+                </td>
+                <td align="center">
+                    <a href="@Url.Action("BatalkanKonfirmasi", "Home", new { id = item.Id })"
+                       class="fas fa-download fa-2x" title="Batalkan Konfirmasi" style="color:red"
+                       onclick="if (! confirm('\n\nYakin untuk Membatalkan Order Booking ini ?\n\nJika ya, email pembatalan akan dikirimkan kepada User tersebut\n\n')) { return false; }">
+                    </a>
+                </td>
+            </tr>
             }
         </tbody>
     </table>

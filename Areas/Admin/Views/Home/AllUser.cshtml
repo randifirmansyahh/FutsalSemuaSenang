@@ -47,7 +47,7 @@
                 <td align="center">
                     @Html.DisplayFor(modelItem => item.Email)
                 </td>
-                @{ if (item.Status == true)
+                @{ if (item.Status == "1")
                     {
                         <td align="center">
                             <a href="@Url.Action("NonAktifkan", "Home", new { id = item.Id })"
