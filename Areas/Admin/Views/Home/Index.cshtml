@@ -70,7 +70,7 @@
                         <td align="center">
                             <a href="@Url.Action("BatalkanKonfirmasi", "Home", new { id = item.Id })"
                                class="fas fa-download fa-2x" title="Batalkan Konfirmasi" style="color:red"
-                               onclick="if (! confirm('Yakin untuk Membatalkan Order Booking ini ?')) { return false; }">
+                               onclick="if (! confirm('\n\nYakin untuk Membatalkan Order Booking ini ?\n\nJika ya, email pembatalan akan dikirimkan kepada User tersebut\n\n')) { return false; }">
                             </a>
                         </td>
                     }
@@ -79,7 +79,7 @@
                         <td align="center">
                             <a href="@Url.Action("Konfirmasi", "Home", new { id = item.Id })"
                                class="fas fa-upload fa-2x" title="Konfirmasi" style="color:green"
-                               onclick="if (! confirm('Yakin untuk Mengkonfirmasi Booking ini ?')) { return false; }">
+                               onclick="if (! confirm('\n\nYakin untuk Mengkonfirmasi Order Booking ini ?\n\nJika ya, email konfirmasi akan dikirimkan ke User tersebut\n\n')) { return false; }">
                             </a>
                         </td>
                     }
