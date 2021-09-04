@@ -18,6 +18,7 @@ namespace FutsalSemuaSenang.Models
     }
     public class BookingForm
     {
+        public string EmailUser { get; set; }
         public int IdUser { get; set; }
         public string NamaLapangan { get; set; }
         public string Tanggal { get; set; }

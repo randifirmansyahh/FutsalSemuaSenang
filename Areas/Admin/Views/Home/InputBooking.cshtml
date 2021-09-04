@@ -1,10 +1,10 @@
 ﻿@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "_AdminLayout";
 }
 
 <style>
     .form {
-        margin: 20px 500px 20px 500px;
+        margin: 10px 500px 10px 500px;
         color: white;
     }
 
@@ -14,26 +14,21 @@
 
     .utama {
         background-color: gray;
-        padding: 1px 0 1px 0;
-    }
-
-    .header {
-        background-color: gray;
-        height: 50px;
-        width: 100%;
+        padding: 1px 0 150px 0;
     }
 </style>
-
-<div class="header">
-</div>
 
 <div class="utama">
     <div class="form">
         <h2 align="center">Silahkan Isi Tanggal dan Waktu Booking</h2>
-        <form class="row g-3" action="User" method="POST">
+        <form class="row g-3" action="InputBooking" method="POST">
+            <div class="col-md-12">
+                <label for="validationDefault01" class="form-label">email</label>
+                <input type="email" name="EmailUser" class="form-control" required>
+            </div>
             <div class="col-md-12">
                 <label for="validationDefault01" class="form-label">Tanggal</label>
-                <input type="date" id="Tanggal" name="Tanggal" class="form-control" required>
+                <input type="date" name="Tanggal" id="Tanggal" class="form-control" required>
 
                 <script>
                     document.getElementById('Tanggal').value = new Date().toISOString().split('T')[0];
@@ -77,7 +72,8 @@
                 <button class="btn btn-success btn-lg" type="submit">Booking Sekarang</button>
             </div>
             <div align="center">
-                @if(@ViewBag.Message != null){
+                @if (@ViewBag.Message != null)
+                {
                     <h4 style="font-family:'Times New Roman';color:red;background-color:white;border-radius:20px;padding:10px 0 10px 0">
                         @ViewBag.Message
                     </h4>

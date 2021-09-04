@@ -110,8 +110,17 @@
       <!-- Sidebar Menu -->
       <nav class="mt-2">
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-              <!-- Add icons to the links using the .nav-icon class
-    with font-awesome or any other icon font library -->
+              <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
+              
+              <li class="nav-item">
+                  <a href="@Url.Action("InputBooking", "Home")" class="nav-link">
+                      <i class="nav-icon fas fa-edit"></i>
+                      <p>
+                          Input Booking
+                      </p>
+                  </a>
+              </li>
+
               <li class="nav-item">
                   <section id="booking">
                       <a href="#booking" class="nav-link">
@@ -175,7 +184,7 @@
                       </ul>
                   </section>
               </li>
-              <li class="nav-header">AKUN</li>             
+              <li class="nav-header">AKUN</li>
               <li class="nav-item">
                   <a href="/" class="nav-link" onclick="if (! confirm('Yakin untuk keluar ?')) { return false; }">
                       <i class="nav-icon fas fa-sign-out-alt"></i>
