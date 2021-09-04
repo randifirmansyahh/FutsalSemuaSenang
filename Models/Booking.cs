@@ -23,6 +23,7 @@ namespace FutsalSemuaSenang.Models
         public string Tanggal { get; set; }
         public string JamMulai { get; set; }
         public string JamSelesai { get; set; }
+        public int Durasi { get; set; }
         public int Harga { get; set; }
         public bool Status { get; set; }
     }

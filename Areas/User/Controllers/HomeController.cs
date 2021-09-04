@@ -25,16 +25,66 @@ namespace FutsalSemuaSenang.Areas.User.Controllers
         }
 
         [HttpPost]
-        public IActionResult Cek([Bind("Tanggal,Jam,Durasi")] Booking data)
+        public IActionResult Index([Bind("Tanggal,JamMulai,Durasi")] BookingForm data)
         {
-            var cekBooking = _context.Booking.ToList().Where(x => x.Tanggal == data.Tanggal && x.Status==true);
-            if (cekBooking == null)
-            {
-                return View();
-            }
+            var cekBooking = _context.Booking.ToList().Where(x => x.Tanggal == data.Tanggal && x.JamMulai == data.JamMulai && x.Status==true);
 
-            ViewBag.Message = "Sudah ada pembooking pada tanggal tersebut";
-            return RedirectToAction("Index");
+            int n = cekBooking.Count();
+
+            if(data.JamMulai == "13")
+            {
+                if (n >= 3)
+                {
+                    int nSelesai = 0;
+
+                    foreach (var item in cekBooking)
+                    {
+                        if (item.JamSelesai == "15") nSelesai += 1;
+                    }
+
+                    if (nSelesai >= 3)
+                    {
+                        ViewBag.Message = "Semua lapangan terbooking pada tanggal tersebut, Coba pilih tanggal lain.";
+                        return View();
+                    }
+                    else
+                    {
+                        ViewBag.Message = "Booking Penuh pada jam tersebut, Coba pilih jam lain";
+                        return View();
+                    }
+                }
+                else if (n == 2)
+                {
+                    return View("Cek");
+                }
+                else if (n == 1)
+                {
+                    return View("Cek");
+                }
+                else
+                {
+                    return View("Cek");
+                }
+            }
+            else
+            {
+                int nSelesai = 0;
+                
+                foreach (var item in cekBooking)
+                {
+                    if (item.JamSelesai == "15") nSelesai += 1;
+                }
+
+                if (nSelesai >= 3)
+                {
+                    ViewBag.Message = "Semua lapangan terbooking pada tanggal dan jam tersebut";
+                    return View();
+                }
+                else
+                {
+                    return View("Cek");
+                }
+            }
         }
     }
 }
