@@ -40,10 +40,15 @@ namespace FutsalSemuaSenang.Areas.User.Controllers
             int JS15 = 0;
             int cekFull = 0;
 
+            int Alpha = 0;
+            int Beta = 0;
+            int Charlie = 0;
+
             //cek all by date
             var cekAll = _context.Booking.ToList().Where(x => x.Tanggal == data.Tanggal && x.Status == true);
             foreach (var item in cekAll)
             {
+                //cek jam mulai dan jam selesai
                 if (item.JamMulai == "13" && item.JamSelesai == "15") cekFull += 1;
 
                 if (item.JamMulai == "13") JM13 += 1;
@@ -53,6 +58,15 @@ namespace FutsalSemuaSenang.Areas.User.Controllers
                 if (item.JamSelesai == "14") JS14 += 1;
 
                 if (item.JamSelesai == "15") JS15 += 1;
+
+                //cek nama lapangan
+                if (item.NamaLapangan == "Alpha" && item.JamMulai == "13" && item.JamSelesai == "15") Alpha += 2;
+                else if (item.NamaLapangan == "Beta" && item.JamMulai == "13" && item.JamSelesai == "15") Beta += 2;
+                else if (item.NamaLapangan == "Charlie" && item.JamMulai == "13" && item.JamSelesai == "15") Charlie += 2;
+
+                if (item.NamaLapangan == "Alpha") Alpha += 1;
+                else if (item.NamaLapangan == "Beta") Beta += 1;
+                else if (item.NamaLapangan == "Charlie") Charlie += 1;
             }
 
             //Is Full ?
@@ -101,12 +115,20 @@ namespace FutsalSemuaSenang.Areas.User.Controllers
             //set Id User
             int Id = 0;
             idUserSvc.GetIdUser(ref Id);
-            
+
+            //set Nama lapangan
+            string NamaLapangKosong = "";
+
+            //cari nama lapangan yang kosong
+            if (Alpha < 2) NamaLapangKosong = "Alpha";
+            else if (Beta < 2) NamaLapangKosong = "Beta";
+            else if (Charlie < 2) NamaLapangKosong = "Charlie";
+
             //disini push db
 
             //disini kirim email
-
-            return View("Cek");
+            ViewBag.Message = NamaLapangKosong;
+            return View();
         }
     }
 }
