@@ -21,6 +21,8 @@ namespace FutsalSemuaSenang.Extension
 
             services.AddSingleton<OTPService>();
 
+            services.AddSingleton<IdUserService>();
+
             services.AddAuthentication("CookieAuth")
                 .AddCookie("CookieAuth", options =>
                 {

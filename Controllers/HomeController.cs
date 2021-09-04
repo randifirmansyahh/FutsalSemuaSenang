@@ -24,11 +24,13 @@ namespace FutsalSemuaSenang.Controllers
 
         private readonly AppDbContext _context;
         private readonly OTPService otpSvc;
+        private readonly IdUserService idUserSvc;
 
-        public HomeController(AppDbContext c, OTPService otpSvc)
+        public HomeController(AppDbContext c, OTPService otpSvc, IdUserService idUserSvc)
         {
             _context = c;
             this.otpSvc = otpSvc;
+            this.idUserSvc = idUserSvc;
         }
 
         [HttpPost]
@@ -57,6 +59,8 @@ namespace FutsalSemuaSenang.Controllers
                 }
                 else if (user.Role.Id == 2)
                 {
+                    //set Id User agar bisa dipakai di booking User
+                    idUserSvc.SetIdUser(user.Id);
                     return Redirect("/User");
                 }
 

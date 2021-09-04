@@ -1,4 +1,5 @@
 ﻿using FutsalSemuaSenang.Models;
+using FutsalSemuaSenang.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -15,9 +16,12 @@ namespace FutsalSemuaSenang.Areas.User.Controllers
         
         private readonly AppDbContext _context;
 
-        public HomeController(AppDbContext c)
+        private readonly IdUserService idUserSvc;
+
+        public HomeController(AppDbContext c, IdUserService idUserSvc)
         {
             _context = c;
+            this.idUserSvc = idUserSvc;
         }
         public IActionResult Index()
         {
@@ -27,74 +31,82 @@ namespace FutsalSemuaSenang.Areas.User.Controllers
         [HttpPost]
         public IActionResult Index([Bind("Tanggal,JamMulai,Durasi")] BookingForm data)
         {
-            int nSelesaiAll = 0;
-            var cekAll = _context.Booking.ToList().Where(x => x.Tanggal == data.Tanggal && x.Status == true);
+            string pesanFull = "Semua lapangan terbooking pada tanggal tersebut, Silahkan pilih tanggal lain.";
+            string pesanJamFull = "Semua lapangan terbooking pada Jam tersebut, Silahkan pilih Jam lain.";
 
-            //cek all
+            int JM13 = 0;
+            int JM14 = 0;
+            int JS14 = 0;
+            int JS15 = 0;
+            int cekFull = 0;
+
+            //cek all by date
+            var cekAll = _context.Booking.ToList().Where(x => x.Tanggal == data.Tanggal && x.Status == true);
             foreach (var item in cekAll)
             {
-                if (item.JamSelesai == "15") nSelesaiAll += 1;
+                if (item.JamMulai == "13" && item.JamSelesai == "15") cekFull += 1;
+
+                if (item.JamMulai == "13") JM13 += 1;
+
+                if (item.JamMulai == "14") JM14 += 1;
+
+                if (item.JamSelesai == "14") JS14 += 1;
+
+                if (item.JamSelesai == "15") JS15 += 1;
             }
 
-            var cekBooking = _context.Booking.ToList().Where(x => x.Tanggal == data.Tanggal && x.JamMulai == data.JamMulai && x.Status==true);
-
-            int n = cekBooking.Count();
-
-            int nSelesai = 0;
-
-            //cek jam selesai 15
-            foreach (var item in cekBooking)
+            //Is Full ?
+            if (cekFull >= 3)
             {
-                if (item.JamSelesai == "15") nSelesai += 1;
+                ViewBag.Message = pesanFull;
+                return View();
             }
-
-            //cek jam 13 saja
-            if (data.JamMulai == "13" || nSelesaiAll >= 3)
+            else if(JM13 >=3 && JS15 >= 3)
             {
-                if (n >= 3 || nSelesaiAll >= 3)
+                //pesan full
+                ViewBag.Message = pesanFull;
+                
+                if (JM14 >= 3 && JS14 >= 3)
                 {
-                    if (nSelesai >= 3 || nSelesaiAll >=3)
-                    {
-                        ViewBag.Message = "Semua lapangan terbooking pada tanggal tersebut, Silahkan pilih tanggal lain.";
-                        return View();
-                    }
-                    else
-                    {
-                        ViewBag.Message = "Booking Penuh pada jam tersebut, Silahkan pilih jam lain jika tersedia";
-                        return View();
-                    }
-                }
-                else if (n == 2)
-                {
-                    // create booking + kirim email
-                    return View("Cek");
-                }
-                else if (n == 1)
-                {
-                    // create booking + kirim email
-                    return View("Cek");
-                }
-                else
-                {
-                    // create booking + kirim email
-                    return View("Cek");
-                }
-            }
-
-            //cek jam 14.00
-            else
-            {
-                if (n >= 3)
-                {
-                    ViewBag.Message = "Semua lapangan terbooking pada jam tersebut, Silahkan pilih jam lain.";
                     return View();
                 }
-                else
+                else if (JM14 >= 2 && JS14 >= 2)
                 {
-                    //crate booking + kirim email
-                    return View("Cek");
+                    return View();
+                }
+                else if (JM14 >= 1 && JS14 >= 1)
+                {
+                    return View();
                 }
             }
+
+            //cek jam full
+            ViewBag.Message = pesanJamFull;
+            if (data.JamMulai == "13" && JM13 >= 3)
+            {
+                return View();
+            }
+            else if (data.JamMulai == "14" && JM14 >= 3)
+            {
+                return View();
+            }
+
+            //cek jangan 2 jam kalo penuh
+            if (data.Durasi >= 2 && JM14 >= 3) 
+            {
+                ViewBag.Message = "Anda hanya dapat memesan 1 Jam, karna di jam berikutnya telah di booking oleh orang lain";
+                return View();
+            }
+
+            //set Id User
+            int Id = 0;
+            idUserSvc.GetIdUser(ref Id);
+            
+            //disini push db
+
+            //disini kirim email
+
+            return View("Cek");
         }
     }
 }
