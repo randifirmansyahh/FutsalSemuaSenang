@@ -146,6 +146,103 @@ namespace FutsalSemuaSenang.Areas.Admin.Controllers
 
                 SmtpServer.Send(email);
 
+                //cari booking yang sama dengan konfirmasi
+                var findSame = _context.Booking.ToList().Where(x => x.Tanggal==findBooking.Tanggal && x.JamMulai == findBooking.JamMulai && x.Id != findBooking.Id);
+
+                //membatalkan semua order yang sama dengan konfirmasi
+                foreach(var item in findSame)
+                {
+                    //hapus booking yang sama dengan konfirmasi
+                    var hapus = _context.Booking.Find(item.Id);
+                    _context.Remove(hapus);
+                    _context.SaveChanges();
+
+                    //cari user
+                    var cariUser = _context.User.Find(item.IdUser);
+
+                    //kirim email pembatalan
+                    email.To.Add(cariUser.Email);
+                    email.Subject = "Order Booking Ditolak oleh Admin !";
+                    email.Body =
+                        "<h1 style='color:red;'>Mohon maaf, Order booking anda telah ditolak oleh admin !</h1><br><br>" +
+                        "<table>" +
+                            "<tr>" +
+                                "<td>" +
+                                    "Kode Booking" +
+                                "</td>" +
+                                "<td><h3>" +
+                                    KodeBooking +
+                                "</h3></td>" +
+                            "<tr>" +
+                            "<tr>" +
+                                "<td>" +
+                                    "ID Booking" +
+                                "</td>" +
+                                "<td><h3>" +
+                                    hapus.Id +
+                                "</h3></td>" +
+                            "<tr>" +
+                            "<tr>" +
+                                "<td>" +
+                                    "Nama Pembooking" +
+                                "</td>" +
+                                "<td><h3>" +
+                                    cariUser.Name +
+                                "</h3></td>" +
+                            "<tr>" +
+                            "<tr>" +
+                                "<td>" +
+                                    "Nama Lapangan" +
+                                "</td>" +
+                                "<td><h3>" +
+                                    hapus.NamaLapangan +
+                                "</h3></td>" +
+                            "<tr>" +
+                            "<tr>" +
+                                "<td>" +
+                                    "Jam Mulai" +
+                                "</h3>" +
+                                "<td><h3>" +
+                                    hapus.JamMulai +
+                                "</h3></td>" +
+                            "<tr>" +
+                            "<tr>" +
+                                "<td>" +
+                                    "Jam Selesai" +
+                                "</td>" +
+                                "<td><h3>" +
+                                    hapus.JamSelesai +
+                                "</h3></td>" +
+                            "<tr>" +
+                            "<tr>" +
+                                "<td>" +
+                                    "Harga" +
+                                "</td>" +
+                                "<td><h3>" +
+                                    hapus.Harga +
+                                "</h3></td>" +
+                            "<tr>" +
+                            "<tr>" +
+                                "<td>" +
+                                    "Status" +
+                                "</td>" +
+                                "<td>" +
+                                    "<h2 style='color:red;'>Ditolak</h2>" +
+                                "</td>" +
+                            "<tr>" +
+                        "<table><br><br>" +
+                        "<a href='mailto:futsalsemuasenang@gmail.com?subject=Bantuan&body=Halo'>Membutuhkan bantuan dari kami ?</a><br><br>" +
+                        "<a href='https://localhost:5001'>Kunjungi website ?</a><br>";
+
+                    email.IsBodyHtml = true;
+
+                    SmtpServer.Port = 587;
+                    SmtpServer.Credentials = new System.Net.NetworkCredential("futsalsemuasenang@gmail.com", "FutsalSemuaSenang!");
+                    SmtpServer.EnableSsl = true;
+
+                    SmtpServer.Send(email);
+                }
+
                 return RedirectToAction("BelumTerkonfirmasi");
             }
 

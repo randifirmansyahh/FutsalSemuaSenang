@@ -68,7 +68,7 @@
                 <td align="center">
                     <a href="@Url.Action("Konfirmasi", "Home", new { id = item.Id })"
                        class="fas fa-upload fa-2x" title="Konfirmasi" style="color:green"
-                       onclick="if (! confirm('\n\nYakin untuk Mengkonfirmasi Order Booking ini ?\n\nJika ya, email konfirmasi akan dikirimkan ke User tersebut\n\n')) { return false; }">
+                       onclick="if (! confirm('\n\nYakin untuk Mengkonfirmasi Order Booking ini ?\n\nJika ya, email konfirmasi akan dikirimkan ke User tersebut\n\nDan Booking dengan tanggal dan waktu yang sama akan dihapus dan dikirim email kepada pembooking')) { return false; }">
                     </a>
                 </td>
             </tr>
