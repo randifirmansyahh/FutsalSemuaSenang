@@ -231,8 +231,7 @@ namespace FutsalSemuaSenang.Areas.User.Controllers
 
             SmtpServer.Send(email);
 
-            ViewBag.Message = NamaLapangKosong;
-            return View();
+            return View("Cek");
         }
     }
 }
