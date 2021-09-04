@@ -27,61 +27,71 @@ namespace FutsalSemuaSenang.Areas.User.Controllers
         [HttpPost]
         public IActionResult Index([Bind("Tanggal,JamMulai,Durasi")] BookingForm data)
         {
+            int nSelesaiAll = 0;
+            var cekAll = _context.Booking.ToList().Where(x => x.Tanggal == data.Tanggal && x.Status == true);
+
+            //cek all
+            foreach (var item in cekAll)
+            {
+                if (item.JamSelesai == "15") nSelesaiAll += 1;
+            }
+
             var cekBooking = _context.Booking.ToList().Where(x => x.Tanggal == data.Tanggal && x.JamMulai == data.JamMulai && x.Status==true);
 
             int n = cekBooking.Count();
 
-            if(data.JamMulai == "13")
+            int nSelesai = 0;
+
+            //cek jam selesai 15
+            foreach (var item in cekBooking)
             {
-                if (n >= 3)
+                if (item.JamSelesai == "15") nSelesai += 1;
+            }
+
+            //cek jam 13 saja
+            if (data.JamMulai == "13" || nSelesaiAll >= 3)
+            {
+                if (n >= 3 || nSelesaiAll >= 3)
                 {
-                    int nSelesai = 0;
-
-                    foreach (var item in cekBooking)
+                    if (nSelesai >= 3 || nSelesaiAll >=3)
                     {
-                        if (item.JamSelesai == "15") nSelesai += 1;
-                    }
-
-                    if (nSelesai >= 3)
-                    {
-                        ViewBag.Message = "Semua lapangan terbooking pada tanggal tersebut, Coba pilih tanggal lain.";
+                        ViewBag.Message = "Semua lapangan terbooking pada tanggal tersebut, Silahkan pilih tanggal lain.";
                         return View();
                     }
                     else
                     {
-                        ViewBag.Message = "Booking Penuh pada jam tersebut, Coba pilih jam lain";
+                        ViewBag.Message = "Booking Penuh pada jam tersebut, Silahkan pilih jam lain jika tersedia";
                         return View();
                     }
                 }
                 else if (n == 2)
                 {
+                    // create booking + kirim email
                     return View("Cek");
                 }
                 else if (n == 1)
                 {
+                    // create booking + kirim email
                     return View("Cek");
                 }
                 else
                 {
+                    // create booking + kirim email
                     return View("Cek");
                 }
             }
+
+            //cek jam 14.00
             else
             {
-                int nSelesai = 0;
-                
-                foreach (var item in cekBooking)
+                if (n >= 3)
                 {
-                    if (item.JamSelesai == "15") nSelesai += 1;
-                }
-
-                if (nSelesai >= 3)
-                {
-                    ViewBag.Message = "Semua lapangan terbooking pada tanggal dan jam tersebut";
+                    ViewBag.Message = "Semua lapangan terbooking pada jam tersebut, Silahkan pilih jam lain.";
                     return View();
                 }
                 else
                 {
+                    //crate booking + kirim email
                     return View("Cek");
                 }
             }
